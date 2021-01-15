@@ -1,7 +1,15 @@
+/*
+This file contains an API request to Github with both fetch and exios.
+Comment/uncomment the appropriate lines to wotk with one method or the other
+ */
+
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import List from "./components/List";
 import withListLoading from "./components/withListLoading";
+
+//axios
+import axios from "axios";
 
 function App() {
   const ListLoading = withListLoading(List);
@@ -10,13 +18,16 @@ function App() {
     repos: null,
   });
 
+  //fetch
+
+  /*
   const errorHandler = (response) => {
     if (!response.ok) throw Error(response.statusText);
     else return response;
   };
 
   useEffect(() => {
-    const apiUrl = `https://api.github.com/users/vibueno/repos`;
+    const apiUrl = "https://api.github.com/users/vibueno/repos";
     fetch(apiUrl, {
       headers: { authorization: process.env.REACT_APP_GIT_PERSONAL_TOKEN },
     })
@@ -26,6 +37,21 @@ function App() {
         setAppState({ loading: false, repos: repos });
       })
       .catch((error) => throw Error(error.message));
+  }, [appState.loading]);
+  */
+
+  //axios
+
+  const headers = {
+    authorization: process.env.REACT_APP_GIT_PERSONAL_TOKEN,
+  };
+
+  useEffect(() => {
+    const apiUrl = "https://api.github.com/users/vibueno/repos";
+    axios.get(apiUrl, headers).then((repos) => {
+      const allRepos = repos.data;
+      setAppState({ loading: false, repos: allRepos });
+    });
   }, [appState.loading]);
 
   return (
