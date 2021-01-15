@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import List from "./components/List";
 import withListLoading from "./components/withListLoading";
+
 function App() {
   const ListLoading = withListLoading(List);
   const [appState, setAppState] = useState({
@@ -9,7 +10,7 @@ function App() {
     repos: null,
   });
 
-  const handleErrors = (response) => {
+  const errorHandler = (response) => {
     if (!response.ok) throw Error(response.statusText);
     else return response;
   };
@@ -19,12 +20,12 @@ function App() {
     fetch(apiUrl, {
       headers: { authorization: process.env.REACT_APP_GIT_PERSONAL_TOKEN },
     })
-      .then(handleErrors)
+      .then(errorHandler)
       .then((response) => response.json())
       .then((repos) => {
         setAppState({ loading: false, repos: repos });
       })
-      .catch((error) => throw Error(error));
+      .catch((error) => throw Error(error.message));
   }, [appState.loading]);
 
   return (
