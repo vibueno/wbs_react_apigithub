@@ -42,11 +42,11 @@ function App() {
 
   //axios
 
-  const headers = {
-    authorization: process.env.REACT_APP_GIT_PERSONAL_TOKEN,
-  };
-
   useEffect(() => {
+    const headers = {
+      authorization: process.env.REACT_APP_GIT_PERSONAL_TOKEN,
+    };
+
     const apiUrl = "https://api.github.com/users/vibueno/repos";
     axios.get(apiUrl, headers).then((repos) => {
       const allRepos = repos.data;
@@ -64,11 +64,11 @@ function App() {
       </div>
       <footer>
         <div className="footer">
-          Built{" "}
+          Built with{" "}
           <span role="img" aria-label="love">
             💚
           </span>{" "}
-          with by Shedrack Akintayo
+          by Shedrack Akintayo
         </div>
       </footer>
     </div>
